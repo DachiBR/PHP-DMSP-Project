@@ -1,4 +1,5 @@
 <?php
+
 // Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get the submitted form data
@@ -35,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Database connection configuration
     $host = 'localhost';
-    $dbname = 'library';
+    $dbname = 'DMSP';
     $username = 'root';
     $db_password = '';
 
@@ -65,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->rowCount() > 0) {
         // Registration successful
         echo 'Registration successful!';
-        
+
         // Redirect to the login page with a login parameter
         header("Location: index.php?login");
         exit;
@@ -74,4 +75,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo 'Registration failed. Please try again.';
     }
 }
-?>
+

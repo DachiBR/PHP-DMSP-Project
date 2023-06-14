@@ -1,0 +1,33 @@
+.pngsize {
+    margin: 10px;
+    height: 20px;
+    width: 20px;
+}
+
+.logosize{
+    height:40px;
+    width:40px;
+}
+
+.dachi{
+    background-color: #2a93bd;
+    color:white;
+    border-radius:20px;
+}
+
+.dachi1{
+    margin-left: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.logosize2{
+    height:50px;
+    width:50px;
+}
+
+.yuti{
+    display: flex;
+    flex-direction: row;
+}

@@ -1,10 +1,15 @@
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>User Profile</title>
-  <link rel="stylesheet" href="home.css">
+  <title>User Blog</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .card {
+      margin-bottom: 20px;
+    }
+  </style>
+  <link rel="stylesheet" href="home.css">
 </head>
 <body>
 <div class="container">
@@ -31,26 +36,25 @@
     </header>
 </div>
   <div class="container">
-    <h2>User Profile</h2>
+    <h2>User Blog</h2>
+
     <?php
+    // Database connection
+    $host = 'localhost';
+    $dbname = 'DMSP';
+    $username = 'root';
+    $db_password = '';
+
+    // Create a new PDO instance
+    $conn = new mysqli($host, $username, $db_password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Insert data into the database
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      // Database connection
-      $host = 'localhost';
-      $dbname = 'DMSP';
-      $username = 'root';
-      $db_password = '';
-  
-      // Create a new PDO instance
-      $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $db_password);
-  
-  
-
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
-
-      // Insert data into the database
       $topic = $_POST["topic"];
       $description = $_POST["description"];
 
@@ -60,21 +64,27 @@
       } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
       }
-
-      $conn->close();
     }
+
+    // Display existing blog posts
+    $sql = "SELECT * FROM blog";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        echo "<div class='card'>";
+        echo "<div class='card-body'>";
+        echo "<h5 class='card-title'>" . $row["topic"] . "</h5>";
+        echo "<p class='card-text'>" . $row["description"] . "</p>";
+        echo "</div>";
+        echo "</div>";
+      }
+    } else {
+      echo "<p>No blog posts found.</p>";
+    }
+
+    $conn->close();
     ?>
-    <form action="blog.php" method="POST">
-      <div class="form-group">
-        <label for="topic">Topic:</label>
-        <input type="text" class="form-control" id="topic" name="topic" required>
-      </div>
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
   </div>
   <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

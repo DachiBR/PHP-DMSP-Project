@@ -1,0 +1,16 @@
+.logutbutton{
+    width:100%;
+    text-align: center;
+    background-color: rgba(29, 228, 92, 0.756);
+    text-decoration: none;
+    color:white;
+}
+.admintxt{
+    width:100%;
+    text-align: center;
+    background-color: rgba(29, 228, 92, 0.756);
+    color:white;
+}
+p{
+    color:white;
+}

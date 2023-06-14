@@ -1,12 +1,13 @@
-
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-  <title>User Profile</title>
+  <title>Roadmaps</title>
+  <!-- Include Bootstrap CSS -->
   <link rel="stylesheet" href="home.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
+
 <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-md-3 mb-2 mb-md-0">
@@ -30,51 +31,58 @@
         </div>
     </header>
 </div>
+
   <div class="container">
-    <h2>User Profile</h2>
-    <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      // Database connection
-      $host = 'localhost';
-      $dbname = 'DMSP';
-      $username = 'root';
-      $db_password = '';
-  
-      // Create a new PDO instance
-      $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $db_password);
-  
-  
+    <h1>Roadmaps</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Roadmap</th>
+          <th>Roadmap Link</th>
+          <th>Type of Roadmap</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        // Database connection configuration
+        $host = 'localhost';
+        $dbname = 'DMSP';
+        $username = 'root';
+        $db_password = '';
 
-      // Check connection
-      if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-      }
+        // Create a database connection
+        $conn = new mysqli($host, $username, $db_password, $dbname);
 
-      // Insert data into the database
-      $topic = $_POST["topic"];
-      $description = $_POST["description"];
+        // Check connection
+        if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+        }
 
-      $sql = "INSERT INTO blog (topic, description) VALUES ('$topic', '$description')";
-      if ($conn->query($sql) === TRUE) {
-        echo "<p>Blog post created successfully!</p>";
-      } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-      }
+        // SQL query to retrieve roadmaps data from the database
+        $sql = "SELECT * FROM roadmaps";
 
-      $conn->close();
-    }
-    ?>
-    <form action="blog.php" method="POST">
-      <div class="form-group">
-        <label for="topic">Topic:</label>
-        <input type="text" class="form-control" id="topic" name="topic" required>
-      </div>
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        // Execute the query
+        $result = $conn->query($sql);
+
+        // Check if there are any rows returned
+        if ($result->num_rows > 0) {
+          // Loop through the rows and generate table rows
+          while ($row = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . $row['language'] . '</td>';
+            echo '<td><a href="' . $row['link'] . '">' . $row['link'] . '</a></td>';
+            echo '<td>' . $row['type'] . '</td>';
+            echo '</tr>';
+          }
+        } else {
+          echo '<tr><td colspan="3">No roadmaps found</td></tr>';
+        }
+
+        // Close the database connection
+        $conn->close();
+        ?>
+      </tbody>
+    </table>
   </div>
   <div class="container">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
@@ -92,5 +100,9 @@
         </ul>
     </footer>
 </div>
+
+
+  <!-- Include Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

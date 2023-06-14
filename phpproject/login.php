@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Database connection configuration
     $host = 'localhost';
-    $dbname = 'library';
+    $dbname = 'DMSP';
     $username = 'root';
     $db_password = '';
 
@@ -19,18 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Prepare the SELECT statement
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-    
+
     // Execute the statement with the provided email
     $stmt->execute([$email]);
-    
+
     // Fetch the user record
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
     // Check if the user record exists and verify the password
     if ($user && password_verify($password, $user['password'])) {
         // Successful login
         echo 'Login successful!';
-        
+
         // Redirect to the home.php page or perform any other actions
         header("Location: home.php");
         exit;
